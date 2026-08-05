@@ -23,7 +23,6 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           flutter-version-file: ${{ env.flutter_version_file }}
-          channel: 'stable'
           cache: true
 
       - name: Setup Melos

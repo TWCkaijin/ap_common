@@ -8,8 +8,8 @@
 
 - **Dart SDK**: ^3.9.0、**Flutter**: >=3.24.0 <4.0.0
 - **套件管理**: Melos ^7.5.0 搭配 pub workspaces
-- **Flutter 版本管理**: FVM（本地版本 3.38.10，SDK 路徑：`.fvm/flutter_sdk`）
-- **CI Flutter 版本**: 3.38.x（stable channel）
+- **Flutter 版本管理**: FVM（本地版本 3.44.8，SDK 路徑：`.fvm/flutter_sdk`）
+- **CI Flutter 版本**: 3.44.8（stable channel）
 - **HTTP**: Dio
 - **序列化**: freezed + json_serializable
 - **多語系**: slang + slang_flutter（已從 intl 遷移）
@@ -131,7 +131,7 @@ class DataEmpty<T> extends DataState<T> { final String? hint; }
   1. `melos run test --no-select` — 執行所有套件測試
   2. `melos run analyze-ci` — 嚴格分析（`--fatal-infos`）
   3. `flutter build web` — 建置 example web app
-- **CI 環境**: Flutter 3.38.x、Melos 6.1.0（透過 `bluefireteam/melos-action@v3`）
+- **CI 環境**: Flutter 3.44.8、Melos 6.1.0（透過 `bluefireteam/melos-action@v3`）
 - PR 自動化：`pr_agent.yml`
 
 ## 重要備註

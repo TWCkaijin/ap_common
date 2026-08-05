@@ -46,7 +46,9 @@ flutter {
 }
 
 dependencies {
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.2.2")
+    /// Version 10+ `flutter_local_notification` on the plugin now relies on desugaring to support scheduled notifications with backwards compatibility on older versions of Android.
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+    // Work around a Flutter crash on Android 12L+ when core-library desugaring is enabled.
     implementation("androidx.window:window:1.0.0")
     implementation("androidx.window:window-java:1.0.0")
 }

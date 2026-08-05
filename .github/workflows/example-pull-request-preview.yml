@@ -18,7 +18,6 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           flutter-version-file: ${{ env.flutter_version_file }}
-          channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
       - name: Run Build
