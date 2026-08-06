@@ -549,8 +549,8 @@ class _ScoreListTab extends StatelessWidget {
         ? colorScheme.onSurfaceVariant
         : isPassed
             ? scoreData.scoreType == ScoreType.gradePoint
-                ? _getGradePointColor(scoreValue)
-                : _getScoreColor(scoreValue)
+                ? ScoreColors.forGradePoint(scoreValue)
+                : ScoreColors.forNumeric(scoreValue)
             : colorScheme.error;
 
     return GestureDetector(
@@ -719,22 +719,6 @@ class _ScoreListTab extends StatelessWidget {
         ),
       ];
     }
-  }
-
-  Color _getScoreColor(double score) {
-    if (score >= 90) return const Color(0xFF4CAF50);
-    if (score >= 80) return const Color(0xFF8BC34A);
-    if (score >= 70) return const Color(0xFF2196F3);
-    if (score >= 60) return const Color(0xFFFF9800);
-    return const Color(0xFFF44336);
-  }
-
-  Color _getGradePointColor(double gradePoint) {
-    if (gradePoint >= 4.0) return const Color(0xFF4CAF50);
-    if (gradePoint >= 3.3) return const Color(0xFF8BC34A);
-    if (gradePoint >= 2.7) return const Color(0xFF2196F3);
-    if (gradePoint >= 1.7) return const Color(0xFFFF9800);
-    return const Color(0xFFF44336);
   }
 
   /// Delegates to [ScoreAnalysis.effectiveScoreStr].
@@ -1003,7 +987,6 @@ class ScoreAnalysis {
 
   double get average {
     final double? detailAverage = scoreData.detail.average;
-    // fix detailAcerage
     if (isGradePoint && detailAverage != null) return detailAverage;
 
     double totalWeighted = 0;
@@ -1108,8 +1091,6 @@ class ScoreAnalysis {
   }
 
   double get failedCredits {
-    final double? detailCredits = scoreData.detail.creditEarned;
-    if (detailCredits != null && detailCredits > 0) return detailCredits;
     double credits = 0;
     for (final Score score in scoreData.scores) {
       final double? scoreValue = _scoreValue(score);
@@ -1121,7 +1102,11 @@ class ScoreAnalysis {
     return credits;
   }
 
-  double get totalCredits => passedCredits + failedCredits;
+  double get totalCredits {
+    final double? detailCredits = scoreData.detail.creditTaken;
+    if (detailCredits != null && detailCredits > 0) return detailCredits;
+    return passedCredits + failedCredits;
+  }
 
   /// Returns the effective score string for a [Score], preferring
   /// [Score.semesterScore] and falling back to [Score.finalScore].

@@ -408,21 +408,6 @@ class ScoreDistributionCard extends StatelessWidget {
     );
   }
 
-  static const Map<String, Color> _gradeColors = <String, Color>{
-    'A+': Color(0xFF4CAF50),
-    'A': Color(0xFF4CAF50),
-    'A-': Color(0xFF8BC34A),
-    'B+': Color(0xFF8BC34A),
-    'B': Color(0xFF2196F3),
-    'B-': Color(0xFF2196F3),
-    'C+': Color(0xFFFF9800),
-    'C': Color(0xFFFF9800),
-    'C-': Color(0xFFFF9800),
-    'D': Color(0xFFF44336),
-    'E': Color(0xFFF44336),
-    'F': Color(0xFFF44336),
-  };
-
   Widget _buildGradePointDistribution(ColorScheme colorScheme) {
     final Map<String, int> dist = analysis.distribution;
     final List<String> orderedGrades = <String>[
@@ -451,7 +436,7 @@ class ScoreDistributionCard extends StatelessWidget {
           label: grade,
           count: count,
           total: analysis.totalSubjects,
-          color: _gradeColors[grade] ?? colorScheme.primary,
+          color: ScoreColors.forGrade(grade, colorScheme.primary),
         ),
       );
     }

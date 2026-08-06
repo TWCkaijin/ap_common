@@ -99,6 +99,7 @@ class CourseScaffold extends StatefulWidget {
     this.semesterPickerUiConfig,
     this.enablePaletteSelector = true,
     this.onCoursePaletteChanged,
+    this.autoHideOverlappingCourses = false,
   });
 
   /// Creates a [CourseScaffold] from a [DataState<CourseData>].
@@ -142,6 +143,7 @@ class CourseScaffold extends StatefulWidget {
     this.semesterPickerUiConfig,
     this.enablePaletteSelector = true,
     this.onCoursePaletteChanged,
+    this.autoHideOverlappingCourses = false,
   })  : state = dataState.when(
           loading: () => CourseState.loading,
           loaded: (_, __) => CourseState.finish,
@@ -214,6 +216,12 @@ class CourseScaffold extends StatefulWidget {
   /// `setCoursePalette` channel after persisting the choice, and
   /// silently no-ops when the plugin isn't registered.
   final ValueChanged<CoursePaletteTheme>? onCoursePaletteChanged;
+
+  /// Whether overlapping courses should be hidden automatically.
+  ///
+  /// Defaults to `false` so [CourseScaffoldState.invisibleCourseCodes]
+  /// continues to represent courses explicitly hidden by the user.
+  final bool autoHideOverlappingCourses;
 
   @override
   CourseScaffoldState createState() => CourseScaffoldState();
@@ -317,6 +325,9 @@ class CourseScaffoldState extends State<CourseScaffold> {
       _buildCourseLookup();
       _courseColorIndexMap.clear();
       _colorIndex = 0;
+    } else if (widget.autoHideOverlappingCourses !=
+        oldWidget.autoHideOverlappingCourses) {
+      _recomputeOverlapHiddenCourses();
     }
     fetchInvisibleCourseCodes();
     super.didUpdateWidget(oldWidget);
@@ -923,7 +934,7 @@ class CourseScaffoldState extends State<CourseScaffold> {
         int span = 1;
         if (mergeCourse ?? true) {
           while (i + span <= maxIndex &&
-              _getCourseAt(weekday, i + span)?.title == course.title) {
+              _getCourseAt(weekday, i + span)?.code == course.code) {
             span++;
           }
         }
@@ -1110,6 +1121,12 @@ class CourseScaffoldState extends State<CourseScaffold> {
   }
 
   void _recomputeOverlapHiddenCourses() {
+    if (!widget.autoHideOverlappingCourses) {
+      _overlapHiddenCourseCodes = <String>{};
+      invisibleCourseCodes = _manuallyHiddenCourseCodes.toList();
+      return;
+    }
+
     final Set<String> visibleCodes = _courseCodesInOrder
         .where(
           (String code) => !_manuallyHiddenCourseCodes.contains(code),
