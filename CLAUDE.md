@@ -131,7 +131,8 @@ class DataEmpty<T> extends DataState<T> { final String? hint; }
   1. `melos run test --no-select` — 執行所有套件測試
   2. `melos run analyze-ci` — 嚴格分析（`--fatal-infos`）
   3. `flutter build web` — 建置 example web app
-- **CI 環境**: Flutter 3.44.8、Melos 6.1.0（透過 `bluefireteam/melos-action@v3`）
+- **CI 環境**: Flutter 3.44.8；workspace 使用 Melos 7.5.0，兩個 CI test jobs 透過 `bluefireteam/melos-action@v3` 安裝 Melos 6.1.0
+- **部署環境**: `deploy.workflow.yml` 與 `deploy.dev.workflow.yml` 使用 `bluefireteam/melos-action@v3`，未指定 `melos-version`，因此使用 action 預設的最新版
 - PR 自動化：`pr_agent.yml`
 
 ## 重要備註
