@@ -549,8 +549,14 @@ class _ScoreListTab extends StatelessWidget {
         ? colorScheme.onSurfaceVariant
         : isPassed
             ? scoreData.scoreType == ScoreType.gradePoint
-                ? ScoreColors.forGradePoint(scoreValue)
-                : ScoreColors.forNumeric(scoreValue)
+                ? ScoreColors.forGradePoint(
+                    scoreValue,
+                    scoreData.passingGradePoint,
+                  )
+                : ScoreColors.forNumeric(
+                    scoreValue,
+                    scoreData.passingScore,
+                  )
             : colorScheme.error;
 
     return GestureDetector(

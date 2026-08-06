@@ -65,20 +65,20 @@ abstract final class ScoreColors {
   static const Color passing = Color(0xFFFF9800);
   static const Color failing = Color(0xFFF44336);
 
-  static Color forNumeric(double score) {
+  static Color forNumeric(double score, double passingScore) {
+    if (score < passingScore) return failing;
     if (score >= 90) return excellent;
     if (score >= 80) return good;
     if (score >= 70) return average;
-    if (score >= 60) return passing;
-    return failing;
+    return passing;
   }
 
-  static Color forGradePoint(double gradePoint) {
+  static Color forGradePoint(double gradePoint, double passingGradePoint) {
+    if (gradePoint < passingGradePoint) return failing;
     if (gradePoint >= 4.0) return excellent;
     if (gradePoint >= 3.3) return good;
     if (gradePoint >= 2.7) return average;
-    if (gradePoint >= 1.7) return passing;
-    return failing;
+    return passing;
   }
 
   static Color forGrade(String grade, Color fallback) {

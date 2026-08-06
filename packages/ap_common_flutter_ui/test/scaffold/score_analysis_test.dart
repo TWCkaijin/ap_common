@@ -2,6 +2,20 @@ import 'package:ap_common_flutter_ui/ap_common_flutter_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  group('ScoreColors', () {
+    test('uses the configured numeric passing score', () {
+      expect(ScoreColors.forNumeric(55, 50), ScoreColors.passing);
+      expect(ScoreColors.forNumeric(49, 50), ScoreColors.failing);
+      expect(ScoreColors.forNumeric(82, 85), ScoreColors.failing);
+    });
+
+    test('uses the configured passing grade point', () {
+      expect(ScoreColors.forGradePoint(1.5, 1.0), ScoreColors.passing);
+      expect(ScoreColors.forGradePoint(0.9, 1.0), ScoreColors.failing);
+      expect(ScoreColors.forGradePoint(3.5, 3.7), ScoreColors.failing);
+    });
+  });
+
   group('ScoreAnalysis credits', () {
     test('uses earned credits only for passed credits', () {
       final ScoreAnalysis analysis = ScoreAnalysis(
